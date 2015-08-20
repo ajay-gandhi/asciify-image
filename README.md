@@ -1,4 +1,4 @@
-# ascii-image
+# asciify-image
 
 > Convert images to ASCII art without native dependencies
 
@@ -11,10 +11,26 @@ instead of `brew`ing and `apt-get`ing other packages.
 * Support for most common image types
 * Color and B/W
 * Numerous resizing options
+* CLI tool
+
+## Installing
+
+Just install with `npm`:
+
+```bash
+$ npm install asciify-image
+```
+
+Or, if you want to use it directly in the command line:
+
+```bash
+$ npm install -g asciify-image
+```
 
 ## API
 
-See an [example](#example).
+This API applies to asciify-image both as a Node.js module ([example](#example))
+and as a CLI tool. Use the `-h` or `--help` flag to see more about the CLI tool.
 
 #### path
 
@@ -34,7 +50,7 @@ white.
 
 #### options.fit
 
-*Default: 'original'*
+*Default: 'original', CLI default: 'box'*
 
 The fit to which to resize the image:
 
@@ -51,13 +67,13 @@ The fit to which to resize the image:
 
 #### options.width
 
-*Default: original image width*
+*Default: original image width, CLI default: window width*
 
 The width to which to resize the image.
 
 #### options.height
 
-*Default: original image height*
+*Default: original image height, CLI default: window height*
 
 The height to which to resize the image.
 

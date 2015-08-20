@@ -71,7 +71,7 @@ module.exports = function (path, second, third) {
           }
         }
 
-        if (options.as_string) ascii += '\n';
+        if (options.as_string && j != image.height() - 1) ascii += '\n';
       }
 
       callback(ascii);
