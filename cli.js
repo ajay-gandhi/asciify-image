@@ -54,5 +54,10 @@ if (!options.fit)    options.fit    = 'box';
 if (!options.width)  options.width  = size.width;
 if (!options.height) options.height = size.height;
 
+if (!argv._[0]) {
+  console.log('You must provide an image');
+  process.exit(1);
+}
+
 // Call the module
 require('./index')(argv._[0], options, console.log);
