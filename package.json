@@ -1,0 +1,24 @@
+{
+  "name": "asciify-image",
+  "version": "0.0.1",
+  "description": "Convert images to ASCII art without native dependencies",
+  "main": "index.js",
+  "dependencies": {
+    "lwip": "^0.0.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ajay-gandhi/asciify-image.git"
+  },
+  "keywords": ["ascii", "image", "png", "jpg", "gif"],
+  "author": "Ajay Gandhi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ajay-gandhi/asciify-image/issues"
+  },
+  "homepage": "https://github.com/ajay-gandhi/asciify-image"
+}
