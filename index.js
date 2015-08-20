@@ -8,6 +8,7 @@ var chars = ' .,:;i1tfLCG08@',
     num_c = chars.length - 1;
 
 module.exports = function (path, second, third) {
+  // Organize arguments
   if (third) {
     var opts     = second;
     var callback = third;
@@ -25,7 +26,9 @@ module.exports = function (path, second, third) {
       fit:     opts.fit     ? opts.fit               : 'original',
       width:   opts.width   ? parseInt(opts.width)   : image.width(),
       height:  opts.height  ? parseInt(opts.height)  : image.height(),
-      c_ratio: opts.c_ratio ? parseInt(opts.c_ratio) : 2
+      c_ratio: opts.c_ratio ? parseInt(opts.c_ratio) : 2,
+
+      as_string:  opts.format === 'array' ? false : true
     }
 
     var new_dims = calculate_dims(image, options);
@@ -35,19 +38,32 @@ module.exports = function (path, second, third) {
       if (err) return console.log('Error resizing image:', err);
 
       var ascii = '';
+      if (!options.as_string) ascii = [];
 
       // Normalization for the returned intensity so that it maps to a char
       var norm  = (255 * 4 / num_c);
 
-      // Get and convert pixels!
+      // Get and convert pixels
       var i, j, c;
       for (j = 0; j < image.height(); j++) {        // height
+
+        // Add new array if type
+        if (!options.as_string) ascii.push([]);
+
         for (i = 0; i < image.width(); i++) {       // width
           for (c = 0; c < options.c_ratio; c++) {   // character ratio
-            ascii += chars.charAt(Math.round(intensity(image, i, j) / norm));
+
+            var next = chars.charAt(Math.round(intensity(image, i, j) / norm));
+
+            if (options.as_string)
+              ascii += next;
+
+            else
+              ascii[j].push(next);
           }
         }
-        ascii += '\n';
+
+        if (options.as_string) ascii += '\n';
       }
 
       callback(ascii);

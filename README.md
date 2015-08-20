@@ -47,6 +47,12 @@ The width to which to resize the image.
 
 The height to which to resize the image.
 
+#### options.format
+
+*Default: 'string'*
+
+The format in which to return the asciified image. Can be "string" or "array".
+
 #### options.c_ratio
 
 *Default: 2*
