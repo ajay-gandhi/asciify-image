@@ -6,6 +6,12 @@ ascii-image allows you to convert images to ASCII art **without native
 dependencies**. This means that all you need to do is `npm install ascii-image`,
 instead of `brew`ing and `apt-get`ing other packages.
 
+## Features
+
+* Support for most common image types
+* Color and B/W
+* Numerous resizing options
+
 ## API
 
 See an [example](#example).
@@ -17,6 +23,14 @@ The path to the image you wish to asciify. Currently supported formats are:
 * JPG
 * PNG
 * GIF
+
+#### options.color
+
+*Default: true*
+
+If `options.color` is set to `true`, the asciified image will be in color when
+printed in your terminal. If set to `false`, the image will be in black and
+white.
 
 #### options.fit
 
@@ -94,3 +108,8 @@ For each pixel, a character is substituted: for a light pixel, the character
 "," may be substituted, but for a darker pixel, the character "8" would be
 substituted. Since these characters are different sizes, they look lighter or
 darker in the big picture (pun somewhat intended).
+
+Some inspiration from
+[image-to-ascii](https://www.npmjs.com/package/image-to-ascii), but the code is
+written from scratch. Mostly created this because I didn't like the native
+dependencies required in existing asciification libraries.

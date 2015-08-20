@@ -1,6 +1,7 @@
 'use strict';
 
-var lwip = require('lwip');
+var lwip     = require('lwip'),
+    Couleurs = require('couleurs');
 
 // Set of basic characters ordered by increasing "darkness"
 // Used as pixels in the ASCII image
@@ -28,6 +29,7 @@ module.exports = function (path, second, third) {
       height:  opts.height  ? parseInt(opts.height)  : image.height(),
       c_ratio: opts.c_ratio ? parseInt(opts.c_ratio) : 2,
 
+      color:      opts.color  == false    ? false : true,
       as_string:  opts.format === 'array' ? false : true
     }
 
@@ -54,6 +56,12 @@ module.exports = function (path, second, third) {
           for (c = 0; c < options.c_ratio; c++) {   // character ratio
 
             var next = chars.charAt(Math.round(intensity(image, i, j) / norm));
+
+            // Color character using
+            if (options.color) {
+              var clr = image.getPixel(i, j);
+              next = Couleurs.fg(next, clr.r, clr.g, clr.b);
+            }
 
             if (options.as_string)
               ascii += next;
