@@ -49,15 +49,17 @@ var options = {
 
 var size = require('window-size');
 
+var errorOutput = function(message) {
+  console.log(message);
+  process.exit(1);
+}
+
 // Setup defaults just for CLI
 if (!options.fit)    options.fit    = 'box';
 if (!options.width)  options.width  = size.width;
 if (!options.height) options.height = size.height;
 
-if (!argv._[0]) {
-  console.log('You must provide an image');
-  process.exit(1);
-}
+if (!argv._[0])      errorOutput('You must provide an image');
 
 // Call the module
-require('./index')(argv._[0], options, console.log);
+require('./index')(argv._[0], options).then(console.log).catch(errorOutput);

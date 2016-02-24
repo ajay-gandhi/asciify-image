@@ -94,9 +94,12 @@ really need to change this.
 #### callback
 
 The function to call after the image is asciified. Receives the asciified text
-as a parameter.
+as a parameter.  
+When omitted, the module will return a Promise ([example](#using-promises)).
 
-## Example
+## Examples
+
+#### Using Callback Functions
 
 ```js
 var asciify = require('asciify-image');
@@ -111,6 +114,28 @@ asciify('path/to/image.png', options, function (asciified) {
   // Print to console
   console.log(asciified);
 });
+```
+
+#### Using Promises
+
+```js
+var asciify = require('asciify-image');
+
+var options = {
+  fit:    'box',
+  width:  200,
+  height: 100
+}
+
+asciify('path/to/image.png', options)
+  .then(function onResolve (asciified) {
+    // Print to console
+    console.log(asciified);
+  })
+  .catch(function onReject (reason) {
+    // Print rejection reason to console
+    console.error(reason);
+  });
 ```
 
 ## How It Works
