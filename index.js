@@ -8,19 +8,52 @@ var lwip     = require('lwip'),
 var chars = ' .,:;i1tfLCG08@',
     num_c = chars.length - 1;
 
-module.exports = function (path, second, third) {
+module.exports = function (path, second, third, fourth) {
   // Organize arguments
-  if (third) {
-    var opts     = second;
-    var callback = third;
-  } else {
-    var opts     = {};
-    var callback = second;
+  var opts          = {},
+      onSuccess,
+      onFailure;
+
+  if (typeof second === 'object') {
+    opts = second;
+    if (typeof third === 'function') {
+      onSuccess = third;
+      if (typeof fourth === 'function') {
+        onFailure = fourth;
+      }
+    }
+  } else if (typeof second === 'function') {
+    onSuccess = second;
+    if (typeof third === 'function') {
+      onFailure = third;
+    }
   }
 
+  // If no callback is specified, prepare a promise to return ...
+  if (!onSuccess) {
+    return new Promise(function(resolve, reject) {
+      asciify_core(path, opts, resolve, reject);
+    });
+  }
+
+  // ... else proceed as usual
+  asciify_core(path, opts, onSuccess, onFailure || console.log);
+}
+
+/**
+ * The module's core functionality.
+ *
+ * @param  [string]   path      - The full path to the image to be asciified
+ * @param  [Object]   opts      - The options object
+ * @param  [Function] onSuccess - Callback if asciification succeeds
+ * @param  [Function] onFailure - Callback if asciification fails
+ *
+ * @returns [void]
+ */
+var asciify_core = function(path, opts, onSuccess, onFailure) {
   // First open image to get initial properties
   lwip.open(path, function(err, image) {
-    if (err) return console.log('Error loading image:', err);
+    if (err) return onFailure('Error loading image: ' + err);
 
     // Setup options
     var options = {
@@ -37,7 +70,7 @@ module.exports = function (path, second, third) {
 
     // Resize to requested dimensions
     image.resize(new_dims[0], new_dims[1], function (err, image) {
-      if (err) return console.log('Error resizing image:', err);
+      if (err) return onFailure('Error resizing image: ' + err);
 
       var ascii = '';
       if (!options.as_string) ascii = [];
@@ -74,7 +107,7 @@ module.exports = function (path, second, third) {
         if (options.as_string && j != image.height() - 1) ascii += '\n';
       }
 
-      callback(ascii);
+      onSuccess(ascii);
 
     });
   });
