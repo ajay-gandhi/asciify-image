@@ -1,6 +1,6 @@
 'use strict';
 
-var lwip     = require('lwip'),
+var Jimp     = require('jimp'),
     Couleurs = require('couleurs');
 
 // Set of basic characters ordered by increasing "darkness"
@@ -52,14 +52,14 @@ module.exports = function (path, second, third, fourth) {
  */
 var asciify_core = function(path, opts, onSuccess, onFailure) {
   // First open image to get initial properties
-  lwip.open(path, function(err, image) {
+  Jimp.read(path, function(err, image) {
     if (err) return onFailure('Error loading image: ' + err);
 
     // Setup options
     var options = {
       fit:     opts.fit     ? opts.fit               : 'original',
-      width:   opts.width   ? parseInt(opts.width)   : image.width(),
-      height:  opts.height  ? parseInt(opts.height)  : image.height(),
+      width:   opts.width   ? parseInt(opts.width)   : image.bitmap.width,
+      height:  opts.height  ? parseInt(opts.height)  : image.bitmap.height,
       c_ratio: opts.c_ratio ? parseInt(opts.c_ratio) : 2,
 
       color:      opts.color  == false    ? false : true,
@@ -69,47 +69,44 @@ var asciify_core = function(path, opts, onSuccess, onFailure) {
     var new_dims = calculate_dims(image, options);
 
     // Resize to requested dimensions
-    image.resize(new_dims[0], new_dims[1], function (err, image) {
-      if (err) return onFailure('Error resizing image: ' + err);
+    image.resize(new_dims[0], new_dims[1]);
 
-      var ascii = '';
-      if (!options.as_string) ascii = [];
+    var ascii = '';
+    if (!options.as_string) ascii = [];
 
-      // Normalization for the returned intensity so that it maps to a char
-      var norm  = (255 * 4 / num_c);
+    // Normalization for the returned intensity so that it maps to a char
+    var norm  = (255 * 4 / num_c);
 
-      // Get and convert pixels
-      var i, j, c;
-      for (j = 0; j < image.height(); j++) {        // height
+    // Get and convert pixels
+    var i, j, c;
+    for (j = 0; j < image.bitmap.height; j++) {        // height
 
-        // Add new array if type
-        if (!options.as_string) ascii.push([]);
+      // Add new array if type
+      if (!options.as_string) ascii.push([]);
 
-        for (i = 0; i < image.width(); i++) {       // width
-          for (c = 0; c < options.c_ratio; c++) {   // character ratio
+      for (i = 0; i < image.bitmap.width; i++) {       // width
+        for (c = 0; c < options.c_ratio; c++) {   // character ratio
 
-            var next = chars.charAt(Math.round(intensity(image, i, j) / norm));
+          var next = chars.charAt(Math.round(intensity(image, i, j) / norm));
 
-            // Color character using
-            if (options.color) {
-              var clr = image.getPixel(i, j);
-              next = Couleurs.fg(next, clr.r, clr.g, clr.b);
-            }
-
-            if (options.as_string)
-              ascii += next;
-
-            else
-              ascii[j].push(next);
+          // Color character using
+          if (options.color) {
+            var clr = Jimp.intToRGBA(image.getPixelColor(i, j));
+            next = Couleurs.fg(next, clr.r, clr.g, clr.b);
           }
-        }
 
-        if (options.as_string && j != image.height() - 1) ascii += '\n';
+          if (options.as_string)
+            ascii += next;
+
+          else
+            ascii[j].push(next);
+        }
       }
 
-      onSuccess(ascii);
+      if (options.as_string && j != image.bitmap.height - 1) ascii += '\n';
+    }
 
-    });
+    onSuccess(ascii);
   });
 }
 
@@ -126,11 +123,11 @@ var calculate_dims = function (img, opts) {
 
     // Scale down by width
     case 'width':
-      return [opts.width, img.height() * (opts.width / img.width())];
+      return [opts.width, img.bitmap.height * (opts.width / img.bitmap.width)];
 
     // Scale down by height
     case 'height':
-      return [img.width() * (opts.height / img.height()), opts.height];
+      return [img.bitmap.width * (opts.height / img.bitmap.height, opts.height)];
 
     // Scale by width and height (ignore aspect ratio)
     case 'none':
@@ -138,15 +135,15 @@ var calculate_dims = function (img, opts) {
 
     // Scale down to fit inside box matching width/height of options
     case 'box':
-      var w_ratio = img.width()  / opts.width,
-          h_ratio = img.height() / opts.height,
+      var w_ratio = img.bitmap.width  / opts.width,
+          h_ratio = img.bitmap.height / opts.height,
           neww, newh;
 
       if (w_ratio > h_ratio) {
-          newh = Math.round(img.height() / w_ratio);
+          newh = Math.round(img.bitmap.height / w_ratio);
           neww = opts.width;
       } else {
-          neww = Math.round(img.width() / h_ratio);
+          neww = Math.round(img.bitmap.width / h_ratio);
           newh = opts.height;
       }
       return [neww, newh];
@@ -159,7 +156,7 @@ var calculate_dims = function (img, opts) {
       if (opts.fit !== 'original')
         console.error('Invalid option "fit", assuming "original"');
 
-      return [img.width(), img.height()];
+      return [img.bitmap.width, img.bitmap.height];
 
   }
 }
@@ -167,7 +164,7 @@ var calculate_dims = function (img, opts) {
 /**
  * Calculates the "intensity" at a point (x, y) in the image, (0, 0) being the
  *   top left corner of the image. Linear combination of rgb_weights with RGB
- *   values at the specified point. Converts alpha from [0, 100] to [0, 255].
+ *   values at the specified point.
  *
  * @param [Image] i - The image object
  * @param [int]   x - The x coord
@@ -176,6 +173,6 @@ var calculate_dims = function (img, opts) {
  * @returns [int] An int in [0, 1020] representing the intensity of the pixel
  */
 var intensity = function (i, x, y) {
-  var color = i.getPixel(x, y);
-  return color.r + color.g + color.b + (color.a * 2.55); // alpha * 255 / 100
+  var color = Jimp.intToRGBA(i.getPixelColor(x, y));
+  return color.r + color.g + color.b + color.a;
 }
