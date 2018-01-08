@@ -34,7 +34,7 @@ and as a CLI tool. Use the `-h` or `--help` flag to see more about the CLI tool.
 
 #### path
 
-The path to the image you wish to asciify. Currently supported formats are:
+The file path, URL, or buffer for the image you wish to asciify. Currently supported formats are:
 
 * JPG
 * PNG
@@ -69,13 +69,13 @@ The fit to which to resize the image:
 
 *Default: original image width, CLI default: window width*
 
-The width to which to resize the image.
+The width to which to resize the image. Use a percentage to set the image width to `x%` of the terminal window width.
 
 #### options.height
 
 *Default: original image height, CLI default: window height*
 
-The height to which to resize the image.
+The height to which to resize the image. Use a percentage to set the image height to `x%` of the terminal window height.
 
 #### options.format
 
