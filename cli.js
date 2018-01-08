@@ -9,8 +9,7 @@ var m_opts = {
     'fit':     'f',
     'height':  'h',
     'width':   'w',
-
-    'help':    'h'
+    'help':    '?'
   }
 }
 
