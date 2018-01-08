@@ -1,7 +1,9 @@
 'use strict';
 
 var Jimp     = require('jimp'),
-    Couleurs = require('couleurs');
+    Couleurs = require('couleurs'),
+    terminalCharWidth = require('terminal-char-width'),
+    windowSize = require('window-size');
 
 // Set of basic characters ordered by increasing "darkness"
 // Used as pixels in the ASCII image
@@ -58,8 +60,8 @@ var asciify_core = function(path, opts, onSuccess, onFailure) {
     // Setup options
     var options = {
       fit:     opts.fit     ? opts.fit               : 'original',
-      width:   opts.width   ? parseInt(opts.width)   : image.bitmap.width,
-      height:  opts.height  ? parseInt(opts.height)  : image.bitmap.height,
+      width:   opts.width   ? (opts.width.substr(-1) === '%' ? (parseInt(opts.width.slice(0, -1)) / 100) * (windowSize.width * terminalCharWidth) - 1 : parseInt(opts.width)) : image.bitmap.width,
+      height:  opts.height  ? (opts.height.substr(-1) === '%' ? (parseInt(opts.height.slice(0, -1)) / 100) * windowSize.height : parseInt(opts.height)) : image.bitmap.height,
       c_ratio: opts.c_ratio ? parseInt(opts.c_ratio) : 2,
 
       color:      opts.color  == false    ? false : true,

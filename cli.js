@@ -47,8 +47,6 @@ var options = {
   width:   argv['width']
 }
 
-var size = require('window-size');
-
 var errorOutput = function(message) {
   console.log(message);
   process.exit(1);
@@ -56,8 +54,8 @@ var errorOutput = function(message) {
 
 // Setup defaults just for CLI
 if (!options.fit)    options.fit    = 'box';
-if (!options.width)  options.width  = size.width;
-if (!options.height) options.height = size.height;
+if (!options.width)  options.width  = '100%';
+if (!options.height) options.height = '100%';
 
 if (!argv._[0])      errorOutput('You must provide an image');
 
