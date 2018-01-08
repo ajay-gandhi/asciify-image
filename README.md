@@ -30,7 +30,7 @@ $ npm install -g asciify-image
 ## API
 
 This API applies to asciify-image both as a Node.js module ([example](#example))
-and as a CLI tool. Use the `-h` or `--help` flag to see more about the CLI tool.
+and as a CLI tool. Use the `-?` or `--help` flag to see more about the CLI tool.
 
 #### path
 
