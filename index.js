@@ -10,36 +10,32 @@ var Jimp     = require('jimp'),
 var chars = ' .,:;i1tfLCG08@',
     num_c = chars.length - 1;
 
-module.exports = function (path, second, third, fourth) {
+module.exports = function (path, second, third) {
   // Organize arguments
   var opts          = {},
-      onSuccess,
-      onFailure;
+      callback;
 
   if (typeof second === 'object') {
     opts = second;
     if (typeof third === 'function') {
-      onSuccess = third;
-      if (typeof fourth === 'function') {
-        onFailure = fourth;
-      }
+      callback = third;
     }
   } else if (typeof second === 'function') {
-    onSuccess = second;
-    if (typeof third === 'function') {
-      onFailure = third;
-    }
+    callback = second;
   }
 
   // If no callback is specified, prepare a promise to return ...
-  if (!onSuccess) {
+  if (!callback) {
     return new Promise(function(resolve, reject) {
-      asciify_core(path, opts, resolve, reject);
+      asciify_core(path, opts, function(err, success) {
+        if (err) return reject(err);
+        if (success) return resolve(success);
+      });
     });
   }
 
   // ... else proceed as usual
-  asciify_core(path, opts, onSuccess, onFailure || console.log);
+  asciify_core(path, opts, callback || console.log);
 }
 
 /**
@@ -52,10 +48,10 @@ module.exports = function (path, second, third, fourth) {
  *
  * @returns [void]
  */
-var asciify_core = function(path, opts, onSuccess, onFailure) {
+var asciify_core = function(path, opts, callback) {
   // First open image to get initial properties
   Jimp.read(path, function(err, image) {
-    if (err) return onFailure('Error loading image: ' + err);
+    if (err) return callback('Error loading image: ' + err);
 
     // Setup options
     var options = {
@@ -108,7 +104,7 @@ var asciify_core = function(path, opts, onSuccess, onFailure) {
       if (options.as_string && j != image.bitmap.height - 1) ascii += '\n';
     }
 
-    onSuccess(ascii);
+    callback(null, ascii);
   });
 }
 

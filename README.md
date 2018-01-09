@@ -93,8 +93,8 @@ really need to change this.
 
 #### callback
 
-The function to call after the image is asciified. Receives the asciified text
-as a parameter.  
+The function to call after the image is asciified. Receives any errors that
+occurred as the first parameter and the asciified text as the second.  
 When omitted, the module will return a Promise ([example](#using-promises)).
 
 ## Examples
@@ -110,7 +110,9 @@ var options = {
   height: 100
 }
 
-asciify('path/to/image.png', options, function (asciified) {
+asciify('path/to/image.png', options, function (err, asciified) {
+  if (err) throw err;
+
   // Print to console
   console.log(asciified);
 });
