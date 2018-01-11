@@ -30,11 +30,11 @@ $ npm install -g asciify-image
 ## API
 
 This API applies to asciify-image both as a Node.js module ([example](#example))
-and as a CLI tool. Use the `-h` or `--help` flag to see more about the CLI tool.
+and as a CLI tool. Use the `-?` or `--help` flag to see more about the CLI tool.
 
 #### path
 
-The path to the image you wish to asciify. Currently supported formats are:
+The file path, URL, or buffer for the image you wish to asciify. Currently supported formats are:
 
 * JPG
 * PNG
@@ -69,13 +69,13 @@ The fit to which to resize the image:
 
 *Default: original image width, CLI default: window width*
 
-The width to which to resize the image.
+The width to which to resize the image. Use a percentage to set the image width to `x%` of the terminal window width.
 
 #### options.height
 
 *Default: original image height, CLI default: window height*
 
-The height to which to resize the image.
+The height to which to resize the image. Use a percentage to set the image height to `x%` of the terminal window height.
 
 #### options.format
 
@@ -93,8 +93,8 @@ really need to change this.
 
 #### callback
 
-The function to call after the image is asciified. Receives the asciified text
-as a parameter.  
+The function to call after the image is asciified. Receives any errors that
+occurred as the first parameter and the asciified text as the second.  
 When omitted, the module will return a Promise ([example](#using-promises)).
 
 ## Examples
@@ -110,7 +110,9 @@ var options = {
   height: 100
 }
 
-asciify('path/to/image.png', options, function (asciified) {
+asciify('path/to/image.png', options, function (err, asciified) {
+  if (err) throw err;
+
   // Print to console
   console.log(asciified);
 });
