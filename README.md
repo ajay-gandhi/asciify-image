@@ -2,7 +2,7 @@
 
 > Convert images to ASCII art without native dependencies
 
-ascii-image allows you to convert images to ASCII art **without native
+asciify-image allows you to convert images to ASCII art **without native
 dependencies**. This means that all you need to do is `npm install ascii-image`,
 instead of `brew`ing and `apt-get`ing other packages.
 
@@ -29,7 +29,7 @@ $ npm install -g asciify-image
 
 ## API
 
-This API applies to asciify-image both as a Node.js module ([example](#example))
+This API applies to asciify-image both as a Node.js module ([example](#examples))
 and as a CLI tool. Use the `-?` or `--help` flag to see more about the CLI tool.
 
 #### path
@@ -52,7 +52,7 @@ white.
 
 *Default: 'original', CLI default: 'box'*
 
-The fit to which to resize the image:
+The fit to resize the image to:
 
 * `box` - Resize the image such that it fits inside a bounding box defined by
           the specified [width](#options.width) and [height](#options.height).
@@ -69,19 +69,19 @@ The fit to which to resize the image:
 
 *Default: original image width, CLI default: window width*
 
-The width to which to resize the image. Use a percentage to set the image width to `x%` of the terminal window width.
+The width to resize the image to. Use a percentage to set the image width to `x%` of the terminal window width.
 
 #### options.height
 
 *Default: original image height, CLI default: window height*
 
-The height to which to resize the image. Use a percentage to set the image height to `x%` of the terminal window height.
+The height to resize the image to. Use a percentage to set the image height to `x%` of the terminal window height.
 
 #### options.format
 
 *Default: 'string'*
 
-The format in which to return the asciified image. Can be "string" or "array".
+The format to return the asciified image in. Can be "string" or "array".
 
 #### options.c_ratio
 
@@ -89,12 +89,12 @@ The format in which to return the asciified image. Can be "string" or "array".
 
 Since a monospace character is taller than it is wide, this property defines the
 integer approximation of the ratio of the width to height. You probably don't
-really need to change this.
+need to change this.
 
 #### callback
 
 The function to call after the image is asciified. Receives any errors that
-occurred as the first parameter and the asciified text as the second.  
+occurred as the first parameter and the asciified text as the second.
 When omitted, the module will return a Promise ([example](#using-promises)).
 
 ## Examples
@@ -130,13 +130,13 @@ var options = {
 }
 
 asciify('path/to/image.png', options)
-  .then(function onResolve (asciified) {
-    // Print to console
+  .then(function (asciified) {
+    // Print asciified image to console
     console.log(asciified);
   })
-  .catch(function onReject (reason) {
-    // Print rejection reason to console
-    console.error(reason);
+  .catch(function (err) {
+    // Print error to console
+    console.error(err);
   });
 ```
 
