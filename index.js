@@ -53,11 +53,21 @@ var asciify_core = function(path, opts, callback) {
   Jimp.read(path, function(err, image) {
     if (err) return callback('Error loading image: ' + err);
 
+    // Percentage based widths
+    if (opts.width && opts.width.substr(-1) === '%') {
+      opts.width = Math.floor((parseInt(opts.width.slice(0, -1)) / 100) * (windowSize.width * terminalCharWidth));
+    }
+
+    // Percentage based heights
+    if (opts.height && opts.height.substr(-1) === '%') {
+      opts.height = Math.floor((parseInt(opts.height.slice(0, -1)) / 100) * windowSize.height);
+    }
+
     // Setup options
     var options = {
       fit:     opts.fit     ? opts.fit               : 'original',
-      width:   opts.width   ? (opts.width.substr(-1) === '%' ? Math.floor((parseInt(opts.width.slice(0, -1)) / 100) * (windowSize.width * terminalCharWidth)) : parseInt(opts.width)) : image.bitmap.width,
-      height:  opts.height  ? (opts.height.substr(-1) === '%' ? Math.floor((parseInt(opts.height.slice(0, -1)) / 100) * windowSize.height) : parseInt(opts.height)) : image.bitmap.height,
+      width:   opts.width   ? parseInt(opts.width)   : image.bitmap.width,
+      height:  opts.height  ? parseInt(opts.height)  : image.bitmap.height,
       c_ratio: opts.c_ratio ? parseInt(opts.c_ratio) : 2,
 
       color:      opts.color  == false    ? false : true,
