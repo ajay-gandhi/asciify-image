@@ -43,8 +43,7 @@ module.exports = function (path, second, third) {
  *
  * @param  [string]   path      - The full path to the image to be asciified
  * @param  [Object]   opts      - The options object
- * @param  [Function] onSuccess - Callback if asciification succeeds
- * @param  [Function] onFailure - Callback if asciification fails
+ * @param  [Function] callback  - Callback function
  *
  * @returns [void]
  */
