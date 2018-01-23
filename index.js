@@ -1,6 +1,6 @@
 'use strict';
 
-var Jimp     = require('jimp'),
+var Jimp = require('jimp'),
     Couleurs = require('couleurs'),
     terminalCharWidth = require('terminal-char-width'),
     windowSize = require('window-size');
@@ -43,8 +43,7 @@ module.exports = function (path, second, third) {
  *
  * @param  [string]   path      - The full path to the image to be asciified
  * @param  [Object]   opts      - The options object
- * @param  [Function] onSuccess - Callback if asciification succeeds
- * @param  [Function] onFailure - Callback if asciification fails
+ * @param  [Function] callback  - Callback function
  *
  * @returns [void]
  */
@@ -54,12 +53,12 @@ var asciify_core = function(path, opts, callback) {
     if (err) return callback('Error loading image: ' + err);
 
     // Percentage based widths
-    if (opts.width && opts.width.substr(-1) === '%') {
+    if (opts.width && opts.width.toString().substr(-1) === '%') {
       opts.width = Math.floor((parseInt(opts.width.slice(0, -1)) / 100) * (windowSize.width * terminalCharWidth));
     }
 
     // Percentage based heights
-    if (opts.height && opts.height.substr(-1) === '%') {
+    if (opts.height && opts.height.toString().substr(-1) === '%') {
       opts.height = Math.floor((parseInt(opts.height.slice(0, -1)) / 100) * windowSize.height);
     }
 
