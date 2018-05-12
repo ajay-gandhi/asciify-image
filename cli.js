@@ -7,7 +7,7 @@ var m_opts = {
     'color':   'c',
     'c-ratio': 'r',
     'fit':     'f',
-    'height':  'h',
+    'height':  't',
     'width':   'w',
     'help':    '?'
   }
@@ -25,7 +25,7 @@ if (argv.help || argv.h) {
   console.log('    -c, --color      true for color, false for B/W');
   console.log('    -r, --c-ratio    character width-height ratio');
   console.log('    -f, --fit        resize rule: box, height, width, original, none');
-  console.log('    -h, --height     height to resize to');
+  console.log('    -t, --height     height to resize to');
   console.log('    -w, --width      width to resize to');
   console.log('');
   console.log('  See the readme for detailed options and defaults');
