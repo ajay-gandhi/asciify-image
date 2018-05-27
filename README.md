@@ -1,3 +1,6 @@
+Fork : 
+Only add a reverse option.
+
 # asciify-image
 
 > Convert images to ASCII art without native dependencies
