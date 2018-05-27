@@ -7,7 +7,6 @@ var Jimp = require('jimp'),
 
 // Set of basic characters ordered by increasing "darkness"
 // Used as pixels in the ASCII image
-var num_c = chars.length - 1;
 
 module.exports = function (path, second, third) {
   // Organize arguments
@@ -87,7 +86,7 @@ var asciify_core = function(chars, path, opts, callback) {
     if (!options.as_string) ascii = [];
 
     // Normalization for the returned intensity so that it maps to a char
-    var norm  = (255 * 4 / num_c);
+    var norm  = (255 * 4 / (chars.length - 1));
 
     // Get and convert pixels
     var i, j, c;
