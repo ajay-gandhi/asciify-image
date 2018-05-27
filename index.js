@@ -7,8 +7,7 @@ var Jimp = require('jimp'),
 
 // Set of basic characters ordered by increasing "darkness"
 // Used as pixels in the ASCII image
-var chars = ' .,:;i1tfLCG08@',
-    num_c = chars.length - 1;
+var num_c = chars.length - 1;
 
 module.exports = function (path, second, third) {
   // Organize arguments
@@ -23,11 +22,17 @@ module.exports = function (path, second, third) {
   } else if (typeof second === 'function') {
     callback = second;
   }
+  let chars;
+  if (opts.reverse) {
+    chars = ' .,:;i1tfLCG08@';
+  } else {
+    chars = '@80GCLft1i;:,. ';
+  }
 
   // If no callback is specified, prepare a promise to return ...
   if (!callback) {
     return new Promise(function(resolve, reject) {
-      asciify_core(path, opts, function(err, success) {
+      asciify_core(chars, path, opts, function(err, success) {
         if (err) return reject(err);
         if (success) return resolve(success);
       });
@@ -35,7 +40,7 @@ module.exports = function (path, second, third) {
   }
 
   // ... else proceed as usual
-  asciify_core(path, opts, callback || console.log);
+  asciify_core(chars, path, opts, callback || console.log);
 }
 
 /**
@@ -47,7 +52,7 @@ module.exports = function (path, second, third) {
  *
  * @returns [void]
  */
-var asciify_core = function(path, opts, callback) {
+var asciify_core = function(chars, path, opts, callback) {
   // First open image to get initial properties
   Jimp.read(path, function(err, image) {
     if (err) return callback('Error loading image: ' + err);
