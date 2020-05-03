@@ -1,4 +1,6 @@
-# asciify-image
+# A Fork of Ajay Gandhi's [asciify-images](https://github.com/ajay-gandhi/asciify-image "asciify-images") that fixes the prototype pollution vulnerability in minimist
+
+## asciify-image
 
 > Convert images to ASCII art without native dependencies
 
@@ -6,14 +8,14 @@ asciify-image allows you to convert images to ASCII art **without native
 dependencies**. This means that all you need to do is `npm install ascii-image`,
 instead of `brew`ing and `apt-get`ing other packages.
 
-## Features
+### Features
 
 * Support for most common image types
 * Color and B/W
 * Numerous resizing options
 * CLI tool
 
-## Installing
+### Installing
 
 Just install with `npm`:
 
@@ -27,12 +29,12 @@ Or, if you want to use it directly in the command line:
 $ npm install -g asciify-image
 ```
 
-## API
+### API
 
 This API applies to asciify-image both as a Node.js module ([example](#examples))
 and as a CLI tool. Use the `-?` or `--help` flag to see more about the CLI tool.
 
-#### path
+##### path
 
 The file path, URL, or buffer for the image you wish to asciify. Currently supported formats are:
 
@@ -40,7 +42,7 @@ The file path, URL, or buffer for the image you wish to asciify. Currently suppo
 * PNG
 * GIF
 
-#### options.color
+##### options.color
 
 *Default: true*
 
@@ -48,7 +50,7 @@ If `options.color` is set to `true`, the asciified image will be in color when
 printed in your terminal. If set to `false`, the image will be in black and
 white.
 
-#### options.fit
+##### options.fit
 
 *Default: 'original', CLI default: 'box'*
 
@@ -65,25 +67,25 @@ The fit to resize the image to:
 * `none` - Scales the width and height to the specified values, ignoring
            original aspect ratio.
 
-#### options.width
+##### options.width
 
 *Default: original image width, CLI default: window width*
 
 The width to resize the image to. Use a percentage to set the image width to `x%` of the terminal window width.
 
-#### options.height
+##### options.height
 
 *Default: original image height, CLI default: window height*
 
 The height to resize the image to. Use a percentage to set the image height to `x%` of the terminal window height.
 
-#### options.format
+##### options.format
 
 *Default: 'string'*
 
 The format to return the asciified image in. Can be "string" or "array".
 
-#### options.c_ratio
+##### options.c_ratio
 
 *Default: 2*
 
@@ -91,15 +93,15 @@ Since a monospace character is taller than it is wide, this property defines the
 integer approximation of the ratio of the width to height. You probably don't
 need to change this.
 
-#### callback
+##### callback
 
 The function to call after the image is asciified. Receives any errors that
 occurred as the first parameter and the asciified text as the second.
 When omitted, the module will return a Promise ([example](#using-promises)).
 
-## Examples
+### Examples
 
-#### Using Callback Functions
+##### Using Callback Functions
 
 ```js
 var asciify = require('asciify-image');
@@ -118,7 +120,7 @@ asciify('path/to/image.png', options, function (err, asciified) {
 });
 ```
 
-#### Using Promises
+##### Using Promises
 
 ```js
 var asciify = require('asciify-image');
@@ -140,7 +142,7 @@ asciify('path/to/image.png', options)
   });
 ```
 
-## How It Works
+### How It Works
 
 Images are represented by pixels. This package reads each pixel as an RGBa
 value. Each of these values is converted into a single integer, called
