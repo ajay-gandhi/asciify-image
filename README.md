@@ -1,3 +1,5 @@
+# A Fork of Ajay Gandhi's [asciify-images](https://github.com/ajay-gandhi/asciify-image "asciify-images") that fixes the prototype pollution vulnerability in minimist
+
 # asciify-image
 
 > Convert images to ASCII art without native dependencies
