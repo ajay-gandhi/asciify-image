@@ -156,3 +156,16 @@ Some inspiration from
 [image-to-ascii](https://www.npmjs.com/package/image-to-ascii), but the code is
 written from scratch. Mostly created this because I didn't like the native
 dependencies required in existing asciification libraries.
+
+## Change chars
+
+```
+var asciify = require('asciify-image');
+
+// Set of basic characters ordered by increasing "darkness"                                                          
+// Used as pixels in the ASCII image                                                                                 
+asciify.chars = ' .,:;i1tfLCG08@';
+asciify.num_c = asciify.chars.length - 1;                                                                           
+
+// asciify stuff
+```   
