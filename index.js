@@ -5,12 +5,7 @@ var Jimp = require('jimp'),
     terminalCharWidth = require('terminal-char-width'),
     windowSize = require('window-size');
 
-// Set of basic characters ordered by increasing "darkness"
-// Used as pixels in the ASCII image
-var chars = ' .,:;i1tfLCG08@',
-    num_c = chars.length - 1;
-
-module.exports = function (path, second, third) {
+function asciify(path, second, third) {
   // Organize arguments
   var opts          = {},
       callback;
@@ -37,6 +32,12 @@ module.exports = function (path, second, third) {
   // ... else proceed as usual
   asciify_core(path, opts, callback || console.log);
 }
+// Set of basic characters ordered by increasing "darkness"
+// Used as pixels in the ASCII image
+asciify.chars = ' .,:;i1tfLCG08@';
+asciify.num_c = asciify.chars.length - 1;
+
+module.exports = asciify
 
 /**
  * The module's core functionality.
@@ -82,7 +83,7 @@ var asciify_core = function(path, opts, callback) {
     if (!options.as_string) ascii = [];
 
     // Normalization for the returned intensity so that it maps to a char
-    var norm  = (255 * 4 / num_c);
+    var norm  = (255 * 4 / asciify.num_c);
 
     // Get and convert pixels
     var i, j, c;
@@ -94,7 +95,7 @@ var asciify_core = function(path, opts, callback) {
       for (i = 0; i < image.bitmap.width; i++) {       // width
         for (c = 0; c < options.c_ratio; c++) {   // character ratio
 
-          var next = chars.charAt(Math.round(intensity(image, i, j) / norm));
+          var next = asciify.chars.charAt(Math.round(intensity(image, i, j) / norm));
 
           // Color character using
           if (options.color) {
