@@ -50,8 +50,8 @@ declare module 'asciify-image' {
 	/** The function to call after the image is asciified. Receives any errors that occurred as the first parameter and the asciified text as the second. When omitted, the module will return a Promise */
 	type asciifyCallback = (err: Error, asciified: string | string[]) => void;
 
-	type asciifyImage = string | Buffer | URL;
+	type asciifyImageInput = string | Buffer | URL;
 
-	function asciifyImage(image: asciifyImage, options?: asciifyOptions, callback?: asciifyCallback): Promise<string | string[]>;
+	function asciifyImage(image: asciifyImageInput, options?: asciifyOptions, callback?: asciifyCallback): Promise<string | string[]>;
   export = asciifyImage;
 }
