@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "couleurs": "^5.0.0",
-    "jimp": "^0.10.3",
+    "jimp": "^0.16.1",
     "minimist": "^1.2.5",
     "request": "^2.88.0",
     "terminal-char-width": "^1.0.8",
