@@ -1,6 +1,6 @@
 {
   "name": "asciify-image",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Convert images to ASCII art without native dependencies",
   "main": "index.js",
   "bin": {
