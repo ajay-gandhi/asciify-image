@@ -27,13 +27,13 @@ declare module 'asciify-image' {
 		 * 
 		 * **Default:** `original image width`
 		*/
-		width?: number,
+		width?: number | string,
 		/** 
 		 * The height to resize the image to. Use a percentage to set the image width to x% of the terminal window height.
 		 * 
 		 * **Default:** `original image height`
 		*/
-		height?: number,
+		height?: number | string,
 		/** 
 		 * The format to return the asciified image in. Can be "string" or "array".
 		 * 
