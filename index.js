@@ -134,7 +134,7 @@ var calculate_dims = function (img, opts) {
 
     // Scale down by height
     case 'height':
-      return [img.bitmap.width * (opts.height / img.bitmap.height, opts.height)];
+      return [img.bitmap.width * (opts.height / img.bitmap.height), opts.height];
 
     // Scale by width and height (ignore aspect ratio)
     case 'none':
