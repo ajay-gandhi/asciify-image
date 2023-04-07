@@ -1,22 +1,24 @@
 {
   "name": "asciify-image",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "Convert images to ASCII art without native dependencies",
   "main": "index.js",
   "bin": {
     "asciify": "./cli.js"
   },
   "dependencies": {
-    "couleurs": "^5.0.0",
-    "jimp": "^0.16.1",
-    "minimist": "^1.2.5",
-    "request": "^2.88.0",
-    "terminal-char-width": "^1.0.8",
-    "window-size": "^0.1.2"
+    "couleurs": "^6.0.11",
+    "jimp": "^0.22.7",
+    "minimist": "^1.2.8",
+    "request": "^2.88.2",
+    "terminal-char-width": "^1.0.10",
+    "window-size": "^1.1.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "upgradeps": "^2.0.5"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "audit": "npx upgradeps -v"
   },
   "repository": {
     "type": "git",
